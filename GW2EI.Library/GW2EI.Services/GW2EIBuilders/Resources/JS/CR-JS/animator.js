@@ -10,7 +10,7 @@ function compileCRTemplates() {
 };
 
 const noUpdateTime = -1;
-const updateText = -2;
+const noUpdateText = -2;
 const deadIcon = new Image();
 deadIcon.onload = function () {
     animateCanvas(noUpdateTime);
@@ -317,6 +317,7 @@ class Animator {
             displaySquadMarkers: true,
             displaySkillMechanics: true,
             skillMechanicsMask: DefaultSkillDecorations,
+            selectedSkillMechanicIds: [],
             displayTrashMobs: true,
             useActorHitboxWidth: false,
             followSelected: false,
@@ -418,7 +419,8 @@ class Animator {
         setValueToLocalStorage("rotationStep", value);
     }
 
-    attachDOM(mainCanvasID, bgCanvasID, pickCanvasID) {
+    attachDOM(mainCanvasID, bgCanvasID, pickCanvasID, timeRangeDisplayID) {
+        this.timeSliderDisplay = document.getElementById(timeRangeDisplayID);
         // main canvas
         this.mainCanvas = document.getElementById(mainCanvasID);
         this.mainCanvas.style.width = this.mainCanvas.width + "px";
@@ -489,6 +491,8 @@ class Animator {
         this._rotationStep = getNumericalValueFromLocalStorage("rotationStep", 0.03);
         this._initMouseEvents();
         this._initTouchEvents();
+
+        this.draw();
     }
 
     _initActors(actors, decorationRenderings, decorationMetadata) {
@@ -714,8 +718,13 @@ class Animator {
         }
     }
 
-    updateInputTime(value, offset) {
+    updateTextInput() {
+        this.timeSliderDisplay.value = ((this.reactiveDataStatus.time - this.reactiveDataStatus.range.min) / 1000.0).toFixed(3);
+    }
+
+    updateInputTime(offset) {
         try {
+            const value = this.timeSliderDisplay.value;
             const cleanedString = value.replace(",", ".");
             const parsedTime = parseFloat(cleanedString);
             if (isNaN(parsedTime) || !isFinite(parsedTime)) {
@@ -725,7 +734,7 @@ class Animator {
             const min = this.reactiveDataStatus.range.min;
             const max = this.reactiveDataStatus.range.max;
             this.reactiveDataStatus.time = Math.min(Math.max(ms, min), max);
-            animateCanvas(updateText);
+            animateCanvas(noUpdateText);
         } catch (error) {
             console.error(error);
         }
@@ -1752,7 +1761,7 @@ class Animator {
 }
 
 function animateCanvas(noRequest) {
-    if (animator == null) {
+    if (!animator || !animator.mainCanvas) {
         return;
     }
     let lastTime = animator.reactiveDataStatus.range.max;
@@ -1765,6 +1774,9 @@ function animateCanvas(noRequest) {
     }
     if ((animator.reactiveDataStatus.time === lastTime && !animator.backwards) || (animator.reactiveDataStatus.time === firstTime && animator.backwards)) {
         animator.stopAnimate(true);
+    }
+    if (noRequest > noUpdateText) {
+        animator.updateTextInput();
     }
     animator.draw();
     if (noRequest > noUpdateTime && animator.animation !== null) {

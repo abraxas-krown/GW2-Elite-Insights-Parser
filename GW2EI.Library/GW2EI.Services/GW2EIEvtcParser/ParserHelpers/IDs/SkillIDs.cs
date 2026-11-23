@@ -932,7 +932,8 @@ public static class SkillIDs
     public const long StoneSpiritOld = 12547;
     public const long StormSpiritAura = 12548;
     public const long QuickeningZephyr = 12550;
-    public const long StrengthOfThePack = 12554;
+    public const long StrengthOfThePackBuff = 12554;
+    public const long StrengthOfThePackPetBuff = 12560;
     public const long NaturesRenewalAura = 12567;
     public const long SpiritOfNature = 12569;
     public const long AttackOfOpportunity = 12574;
@@ -2757,6 +2758,7 @@ public static class SkillIDs
     public const long MantraOfLiberation = 43357;
     public const long BladeRenewal = 43343;
     public const long WaterMinorAttunement = 43370;
+    public const long DeadeyesMark = 43390;
     public const long UnflinchingFortitudeBuff = 43401;
     public const long PathUses = 43410;
     public const long SandCascadeSkill = 43448;
@@ -3249,12 +3251,14 @@ public static class SkillIDs
     public const long NoMountUseWarclaw = 54938;
     public const long WarclawChainPull2 = 54953;
     public const long SandstormShroudDetonation = 54958;
-    public const long GlyphOfTheStarsCA = 55026;
+    public const long GlyphOfTheStarsCA = 55024;
+    public const long GlyphOfTheStarsCABuff = 55026;
     public const long JumpShotBounce = 55028;
     public const long FeelNoPainSavageInstinct = 55030;
     public const long UnyieldingSpirit = 55044;
     public const long GenerousAbundanceOther = 55047;
-    public const long GlyphOfTheStars = 55048;
+    public const long GlyphOfTheStars = 55046;
+    public const long GlyphOfTheStarsBuff = 55048;
     public const long SkyscaleBlastSkill = 55536;
     public const long SkyscaleSkill = 55715;
     public const long SkyscaleBlastDamage = 55716;
@@ -4347,6 +4351,7 @@ public static class SkillIDs
     public const long FixatedOldLionsCourt = 68562;
     public const long BoilingAetherRedBlueCM = 68580;
     public const long DormantCourage = 68585;
+    public const long SwiftScholar = 68601;
     public const long DormantJustice = 68607;
     public const long MechanicalGenius = 68612;
     public const long DormantResolve = 68640;
@@ -5854,10 +5859,11 @@ public static class SkillIDs
     public const long ConstructOfGaldraFrontal = 81341;
     public const long FeatherField = 81342;
     public const long GrabPunch = 81344;
+    public const long FriendOfTheLuxons = 81390;
+    public const long HuntersTacticsBuff = 81421;
+    public const long TwinFangsBuff = 81447;
     #endregion
     #region TODO
-    public const long TwinFangsBuff = 999998;
-    public const long HuntersTacticsBuff = 999999;
     #endregion TODO
 
 }

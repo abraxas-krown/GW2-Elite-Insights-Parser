@@ -14,6 +14,10 @@ internal static class DeadeyeHelper
 
     internal static readonly List<InstantCastFinder> InstantCastFinder =
     [
+        // Gaze applications identify Mark casts; the recipient is the Deadeye and the source is the marked foe.
+        new BuffGainCastFinder(DeadeyesMark, DeadeyesGaze)
+            .WithTarget()
+            .WithBuilds(GW2Builds.July2026Balance),
         new EffectCastFinderByDst(Mercy, EffectGUIDs.DeadeyeMercy)
             .UsingDstSpecChecker(Spec.Deadeye),
     ];
@@ -79,22 +83,30 @@ internal static class DeadeyeHelper
         new Buff("Deadeye's Gaze", DeadeyesGaze, Source.Deadeye, BuffClassification.Other, SkillImages.DeadeyesMark),
     ];
 
-    private static readonly HashSet<int> Minions =
+    private static readonly HashSet<int> ThievesGuild =
     [
-        (int)MinionID.DeadeyeSylvari1,
         (int)MinionID.DeadeyeHuman1,
-        (int)MinionID.DeadeyeCharr1,
-        (int)MinionID.DeadeyeSylvari2,
+        (int)MinionID.DeadeyeHuman2,
         (int)MinionID.DeadeyeAsura1,
+        (int)MinionID.DeadeyeAsura2,
+        (int)MinionID.DeadeyeCharr1,
+        (int)MinionID.DeadeyeCharr2,
         (int)MinionID.DeadeyeNorn1,
         (int)MinionID.DeadeyeNorn2,
-        (int)MinionID.DeadeyeHuman2,
-        (int)MinionID.DeadeyeCharr2,
-        (int)MinionID.DeadeyeAsura2,
+        (int)MinionID.DeadeyeSylvari1,
+        (int)MinionID.DeadeyeSylvari2,
     ];
     internal static bool IsKnownMinionID(int id)
     {
-        return Minions.Contains(id);
+        return ThievesGuild.Contains(id);
+    }
+    internal static bool IsThievesGuild(AgentItem agentItem)
+    {
+        if (agentItem.Type == AgentItem.AgentType.VolatileSpecies)
+        {
+            return false;
+        }
+        return ThievesGuild.Contains(agentItem.ID);
     }
 
 }

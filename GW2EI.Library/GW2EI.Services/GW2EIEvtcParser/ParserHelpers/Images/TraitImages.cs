@@ -96,6 +96,7 @@ internal static class TraitImages
     public const string BigGameHunter = "https://render.guildwars2.com/file/1F0205AD3EB24521C9E8FF69340AC8091B0E556F/1012398.png";
     public const string HeavyLight = "https://render.guildwars2.com/file/725424411D6131431FF9427BA77DCF3F2C5F7C2F/1012397.png";
     public const string Quickfire = "https://render.guildwars2.com/file/BC32643101E9CEC1D3B4B9709E4969637C283B7A/1769946.png";
+    public const string SwiftScholar = "https://render.guildwars2.com/file/C2347F4CA45520676368C8C5D64A3F094A0D73F8/1769949.png";
     public const string LethalTempo = "https://render.guildwars2.com/file/08351965141B6F3013600B3B9CC7F880DEFF05D4/2479325.png";
     public const string TyrantsMomentum = "https://render.guildwars2.com/file/B436E75A9DD8EA917C3677AE4964A40DFB1BCE67/2479321.png";
     public const string DeathlessCourage = "https://render.guildwars2.com/file/6640F790796D719F4F7EB5077900AAFCB6A02DB9/2479322.png";
@@ -245,6 +246,7 @@ internal static class TraitImages
     public const string TargetedDestruction = "https://render.guildwars2.com/file/37B8029E4AFECE5A70A3D37DC763F61BCCCC1CA9/1029965.png";
     public const string SoothingBastion = "https://wiki.guildwars2.com/images/0/04/Soothing_Bastion.png";
     public const string ForerunnerOfDeath = "https://render.guildwars2.com/file/2864D963D3FC9156E6F52FA95DD34C2DE30306BE/2491537.png";
+    public const string FriendOfTheLuxons = "https://render.guildwars2.com/file/5863F212529A39973D0ABB76010DAA11AADF2E5F/2491531.png";
     public const string SaintOfZuHeltzer = "https://render.guildwars2.com/file/42D514BF15A3F84ECECBACC7E05F95CAE03EBF6D/2491539.png";
     public const string VassalsOfTheEmpire = "https://render.guildwars2.com/file/955F334FAA12550A15127A6200CB7BDE4D41BD0A/2491538.png";
     public const string SwiftTermination = "https://render.guildwars2.com/file/B0A7D5466C0E20764CB5CA305BD21F35BEE96303/1029961.png";

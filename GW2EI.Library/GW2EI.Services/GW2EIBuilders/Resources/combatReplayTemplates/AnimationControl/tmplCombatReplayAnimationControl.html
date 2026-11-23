@@ -39,7 +39,7 @@
                         {{ hoveredActor }}
                     </div>
                 </div>
-                <div class="btn btn-small opacity-90 m-2 scale-info" :class="{ 'btn-dark': !light, 'btn-light': light }">
+                <button class="btn btn-small opacity-90 m-2 scale-info" :class="{ 'btn-dark': !light, 'btn-light': light }">
                     <div class="d-flex flex-column justify-content-center align-items-center scale-container">
                         <div class="scale-ruler">
                             <div class="scale-line-container">
@@ -68,7 +68,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </button>
             </div>
         </div>
         <div class="d-flex align-items-center justify-content-between replay-controls-panel rounded" ref="canvasControls">
@@ -341,28 +341,30 @@
             </div>
 
             <div class="d-flex align-items-center justify-content-center mt-1 mb-1">
-                <input style="width: 100px;" class="form-control d-inline h-auto text-right" type="number" step="0.001"
-                           data-original-title="Time" :value="(time - range.min / 1000.0).toFixed(3)"
-                           @input="updateInputTime($event.target.value);">
+                <input style="width: 100px;" class="form-control d-inline h-auto text-right" type="number" 
+                           step="0.001" :id="htmlElementIDs.timeRangeDisplayID"
+                           data-original-title="Time" value="0.000"
+                           @input="updateInputTime()"
+                           @blur="updateTextInput()">
                 <div class="mr-auto">
                 </div>
-                <div @click="toggleAnimate();" style="width: 80px;"
-                     class="btn btn-small"
+                <button @click="toggleAnimate();" style="width: 80px;"
+                     class="btn btn-small mr-1"
                      :class="{'btn-dark': !light, 'btn-light': light}"
                      data-original-title="Play / pause animation">
                     {{ animated ? "&#9208 Pause" : "&#9654 Play" }}
-                </div>
-                <div @click="restartAnimate();" class="btn btn-small"
+                </button>
+                <button @click="restartAnimate();" class="btn btn-small mr-1"
                      :class="{'btn-dark': !light, 'btn-light': light}"
                      data-original-title="Reset back to start">
                     &#8617;&#65039; Restart
-                </div>
-                <div @click="toggleBackwards();" style="width: 104px;"
+                </button>
+                <button @click="toggleBackwards();" style="width: 104px;"
                      class="btn btn-small"
                      :class="{'btn-dark': !light, 'btn-light': light}"
                      data-original-title="Play animation backwards/forwards">
                     {{ backwards ? "&#9654; Forwards" : "&#9664; Backwards" }}
-                </div>
+                </button>
                 <div class="ml-auto">
                 </div>
                 <combat-replay-time-speed-picker-component />
@@ -1034,7 +1036,7 @@
             },
         },
         mounted() {
-            animator.attachDOM(this.htmlElementIDs.mainCanvasID, this.htmlElementIDs.bgCanvasID, this.htmlElementIDs.pickCanvasID);
+            animator.attachDOM(this.htmlElementIDs.mainCanvasID, this.htmlElementIDs.bgCanvasID, this.htmlElementIDs.pickCanvasID, this.htmlElementIDs.timeRangeDisplayID);
             const encounterPhase = this.encounterPhase;
             this.updateAnimatorTimes(encounterPhase);
             this.resetViewpoint();
@@ -1074,7 +1076,8 @@
                     mainCanvasID: "main-canvas",
                     bgCanvasID: "bg-canvas",
                     pickCanvasID: "picking-canvas",
-                    simpleTimelineID: 'simple-timeline'
+                    simpleTimelineID: 'simple-timeline',
+                    timeRangeDisplayID: "time-range-display",
                 };
             },
             fightDuration() {
@@ -1195,9 +1198,12 @@
                 const offset = this.range.min;
                 this.updateTime(min - offset);
             },
-            updateInputTime: function (value) {
+            updateInputTime: function () {
                 const offset = this.range.min;
-                animator.updateInputTime(value, offset);
+                animator.updateInputTime(offset);
+            },
+            updateTextInput: function () {
+                animator.updateTextInput();
             },
 
         },

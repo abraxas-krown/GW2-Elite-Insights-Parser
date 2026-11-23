@@ -32,8 +32,8 @@ internal static class ThiefHelper
         new EffectCastFinder(Pitfall, EffectGUIDs.ThiefPitfallAoE)
             .UsingSrcBaseSpecChecker(Spec.Thief),
         new EffectCastFinder(ThousandNeedles, EffectGUIDs.EnemyAoE240)
-            .UsingSecondaryEffectSameSrcChecker(EffectGUIDs.ThiefThousandNeedlesAoE1, 280)
-            .UsingSecondaryEffectSameSrcChecker(EffectGUIDs.ThiefThousandNeedlesAoE2, 280)
+            .UsingSecondaryEffectSameSrcChecker(EffectGUIDs.ThiefThousandNeedlesAoE1, 280, 20)
+            .UsingSecondaryEffectSameSrcChecker(EffectGUIDs.ThiefThousandNeedlesAoE2, 280, 20)
             .UsingSrcBaseSpecChecker(Spec.Thief),
         new EffectCastFinder(SealArea, EffectGUIDs.ThiefSealAreaAoE)
             .UsingSrcBaseSpecChecker(Spec.Thief),
@@ -85,8 +85,8 @@ internal static class ThiefHelper
         // - Fluid Strikes
         new BuffOnActorDamageModifier(Mod_FluidStrikes, FluidStrikes, "Fluid Strikes", "10%", DamageSource.NoPets, 10.0, DamageType.Strike, DamageType.All, Source.Thief, ByPresence, TraitImages.FluidStrikes, DamageModifierMode.All)
             .WithBuilds(GW2Builds.July2023BalanceAndSilentSurfCM),
-        // Place holder + complete list
-        new BuffOnFoeDamageModifier(Mod_OpportuneOpening, [Chilled, Crippled, Slow, Immobile], "Opportune Opening", "10% on movement-impaired target", DamageSource.NoPets, 10.0, DamageType.Strike, DamageType.All, Source.Thief, ByPresence, TraitImages.OpportuneOpening, DamageModifierMode.All)
+        // - Opportune Opening
+        new BuffOnFoeDamageModifier(Mod_OpportuneOpening, [Chilled, Crippled, Immobile, Fear, Taunt], "Opportune Opening", "5% on target with movement impairing conditions", DamageSource.NoPets, 5.0, DamageType.Strike, DamageType.All, Source.Thief, ByPresence, TraitImages.OpportuneOpening, DamageModifierMode.All)
             .WithBuilds(GW2Builds.November2026Balance),
 
         // Spear
@@ -149,35 +149,35 @@ internal static class ThiefHelper
         new Buff("Shadow Veil (Stacks)", ShadowVeilBuffStacks, Source.Thief, BuffStackType.StackingConditionalLoss, 25, BuffClassification.Other, SkillImages.ShadowVeil),
     ];
 
-    private static readonly HashSet<int> Minions =
+    private static readonly HashSet<int> ThieveGuilds =
     [
-        (int)MinionID.ThiefDaggerHuman,
-        (int)MinionID.ThiefPistolHuman,
         (int)MinionID.ThiefUnknown1,
         (int)MinionID.ThiefUnknown2,
+        (int)MinionID.ThiefDaggerHuman,
         (int)MinionID.ThiefDaggerAsura,
+        (int)MinionID.ThiefDaggerCharr,
+        (int)MinionID.ThiefDaggerNorn,
+        (int)MinionID.ThiefDaggerSylvari,
+        (int)MinionID.ThiefPistolHuman,
         (int)MinionID.ThiefPistolAsura,
         (int)MinionID.ThiefPistolCharr,
-        (int)MinionID.ThiefDaggerCharr,
         (int)MinionID.ThiefPistolNorn,
-        (int)MinionID.ThiefDaggerNorn,
         (int)MinionID.ThiefPistolSylvari,
-        (int)MinionID.ThiefDaggerSylvari,
-        (int)MinionID.ThiefSwordAsura1,
-        (int)MinionID.ThiefSwordNorn1,
-        (int)MinionID.ThiefSwordAsura2,
-        (int)MinionID.ThiefSwordCharr1,
-        (int)MinionID.ThiefSwordSylvari1,
-        (int)MinionID.ThiefSwordCharr2,
-        (int)MinionID.ThiefSwordNorn2,
         (int)MinionID.ThiefSwordHuman1,
         (int)MinionID.ThiefSwordHuman2,
+        (int)MinionID.ThiefSwordAsura1,
+        (int)MinionID.ThiefSwordAsura2,
+        (int)MinionID.ThiefSwordCharr1,
+        (int)MinionID.ThiefSwordCharr2,
+        (int)MinionID.ThiefSwordNorn1,
+        (int)MinionID.ThiefSwordNorn2,
+        (int)MinionID.ThiefSwordSylvari1,
         (int)MinionID.ThiefSwordSylvari2,
     ];
 
     internal static bool IsKnownMinionID(int id)
     {
-        return Minions.Contains(id);
+        return ThieveGuilds.Contains(id);
     }
 
     internal static bool IsThievesGuild(AgentItem agentItem)
@@ -186,7 +186,46 @@ internal static class ThiefHelper
         {
             return false;
         }
-        return Minions.Contains(agentItem.ID);
+        return ThieveGuilds.Contains(agentItem.ID) ||
+            DeadeyeHelper.IsThievesGuild(agentItem) ||
+            DaredevilHelper.IsThievesGuild(agentItem) ||
+            SpecterHelper.IsThievesGuild(agentItem) ||
+            AntiquaryHelper.IsThievesGuild(agentItem);
+    }
+
+    internal static void AdjustMinionName(AgentItem minion)
+    {
+        switch (minion.ID)
+        {
+            case (int)MinionID.ThiefDaggerHuman:
+            case (int)MinionID.ThiefDaggerAsura:
+            case (int)MinionID.ThiefDaggerCharr:
+            case (int)MinionID.ThiefDaggerNorn:
+            case (int)MinionID.ThiefDaggerSylvari:
+                minion.OverrideName("Dagger " + minion.Name);
+                break;
+            case (int)MinionID.ThiefPistolHuman:
+            case (int)MinionID.ThiefPistolAsura:
+            case (int)MinionID.ThiefPistolCharr:
+            case (int)MinionID.ThiefPistolNorn:
+            case (int)MinionID.ThiefPistolSylvari:
+                minion.OverrideName("Pistol " + minion.Name);
+                break;
+            case (int)MinionID.ThiefSwordHuman1:
+            case (int)MinionID.ThiefSwordHuman2:
+            case (int)MinionID.ThiefSwordAsura1:
+            case (int)MinionID.ThiefSwordAsura2:
+            case (int)MinionID.ThiefSwordCharr1:
+            case (int)MinionID.ThiefSwordCharr2:
+            case (int)MinionID.ThiefSwordNorn1:
+            case (int)MinionID.ThiefSwordNorn2:
+            case (int)MinionID.ThiefSwordSylvari1:
+            case (int)MinionID.ThiefSwordSylvari2:
+                minion.OverrideName("Sword " + minion.Name);
+                break;
+            default:
+                break;
+        }
     }
 
     internal static void ComputeProfessionCombatReplayActors(PlayerActor player, ParsedEvtcLog log, CombatReplay replay)

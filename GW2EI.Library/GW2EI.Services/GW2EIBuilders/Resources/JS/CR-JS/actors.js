@@ -303,7 +303,7 @@ class NonSquadIconDrawable extends IconDrawable {
                     if (minion.instances) {
                         const minionInstance = minion.instances.find(x => x.uniqueID === this.id);
                         if (minionInstance) {
-                            logData.npcMap["u" + this.id] = minion.name + " # " + (minion.instances.indexOf(minionInstance) + 1);
+                            logData.npcMap["u" + this.id] = getMinionLabel(minion.name, minion.instances.indexOf(minionInstance));
                             this._nameInDictInit = true;
                             return;
                         }
@@ -333,7 +333,7 @@ class NonSquadIconDrawable extends IconDrawable {
             if (!this._nameInDictInit) {
                 this._setNameInDict();
             }
-            if (this.useMasterDrawConditions && !animator.displaySettings.displayAllMinion) {
+            if (this.useMasterDrawConditions && !animator.displaySettings.displayAllMinions) {
                 return (this.master.isSelected() || this.isSelected()) && animator.displaySettings.displaySelectedMinions;
             }
         }

@@ -1,4 +1,5 @@
-﻿using GW2EIEvtcParser.ParserHelpers;
+﻿using GW2EIEvtcParser.ParsedData;
+using GW2EIEvtcParser.ParserHelpers;
 using static GW2EIEvtcParser.ArcDPSEnums;
 using static GW2EIEvtcParser.DamageModifierIDs;
 using static GW2EIEvtcParser.EIData.Buff;
@@ -70,22 +71,30 @@ internal static class DaredevilHelper
             .WithBuilds(GW2Builds.April2019Balance),
     ];
 
-    private static readonly HashSet<int> Minions =
+    private static readonly HashSet<int> ThievesGuild =
     [
-        (int)MinionID.DaredevilSylvari1,
-        (int)MinionID.DaredevilAsura1,
         (int)MinionID.DaredevilHuman1,
+        (int)MinionID.DaredevilHuman2,
+        (int)MinionID.DaredevilAsura1,
         (int)MinionID.DaredevilAsura2,
+        (int)MinionID.DaredevilCharr1,
+        (int)MinionID.DaredevilCharr2,
         (int)MinionID.DaredevilNorn1,
         (int)MinionID.DaredevilNorn2,
-        (int)MinionID.DaredevilCharr1,
+        (int)MinionID.DaredevilSylvari1,
         (int)MinionID.DaredevilSylvari2,
-        (int)MinionID.DaredevilHuman2,
-        (int)MinionID.DaredevilCharr2,
     ];
     internal static bool IsKnownMinionID(int id)
     {
-        return Minions.Contains(id);
+        return ThievesGuild.Contains(id);
+    }
+    internal static bool IsThievesGuild(AgentItem agentItem)
+    {
+        if (agentItem.Type == AgentItem.AgentType.VolatileSpecies)
+        {
+            return false;
+        }
+        return ThievesGuild.Contains(agentItem.ID);
     }
 
 }
