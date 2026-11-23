@@ -1,0 +1,7 @@
+# Used by docker/cli/Dockerfile only (BuildKit reads <Dockerfile>.dockerignore); keeps local build output out
+.git
+**/bin
+**/obj
+GW2EI.bin
+docs
+packaging
