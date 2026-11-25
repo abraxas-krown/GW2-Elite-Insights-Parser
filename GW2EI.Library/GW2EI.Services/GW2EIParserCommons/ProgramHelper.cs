@@ -737,7 +737,7 @@ public sealed class ProgramHelper : IDisposable
         }
         if (Settings.SaveOutJSON)
         {
-            var builder = new RawFormatBuilder(log, new RawFormatSettings() { RawFormatTimelineArrays = Settings.RawTimelineArrays }, ParserVersion, uploadResults);
+            var builder = new RawFormatBuilder(log, new RawFormatSettings() { RawFormatTimelineArrays = Settings.RawTimelineArrays, RawFormatCombatReplayDecorations = Settings.RawCombatReplayDecorations }, ParserVersion, uploadResults);
             if (Settings.SaveOutJSON)
             {
                 using var _t1 = new AutoTrace("Generate JSON");

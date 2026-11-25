@@ -55,6 +55,7 @@ public class ProgramSettings
     public bool HtmlCompressJson { get; set; } = false;
     // JSON
     public bool RawTimelineArrays { get; set; } = true;
+    public bool RawCombatReplayDecorations { get; set; } = false;
     public bool CompressRaw { get; set; } = false;
     public bool IndentJSON { get; set; } = false;
     // Other
@@ -105,6 +106,7 @@ public class ProgramSettings
         HtmlExternalScriptsCdn = settings.HtmlExternalScriptsCdn;
         HtmlCompressJson = settings.HtmlCompressJson;
         RawTimelineArrays = settings.RawTimelineArrays;
+        RawCombatReplayDecorations = settings.RawCombatReplayDecorations;
         CompressRaw = settings.CompressRaw;
         IndentJSON = settings.IndentJSON;
         MemoryLimit = settings.MemoryLimit;

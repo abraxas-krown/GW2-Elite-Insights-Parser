@@ -34,6 +34,10 @@ internal static class JsonCombatReplayMetaDataBuilder
             }
         }
         //
+        if (settings.RawFormatCombatReplayDecorations)
+        {
+            JsonCombatReplayDecorationBuilder.AddDecorations(jsonCR, log, settings, actors, decorationRendering, decorationMetadata);
+        }
         return jsonCR;
     }
 
