@@ -572,6 +572,21 @@ public sealed partial class Settings : global::System.Configuration.ApplicationS
 
     [global::System.Configuration.UserScopedSettingAttribute()]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+    [global::System.Configuration.DefaultSettingValueAttribute("False")]
+    public bool RawCombatReplayDecorations
+    {
+        get
+        {
+            return (bool)this[nameof(RawCombatReplayDecorations)];
+        }
+        set
+        {
+            this[nameof(RawCombatReplayDecorations)] = value;
+        }
+    }
+
+    [global::System.Configuration.UserScopedSettingAttribute()]
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Configuration.DefaultSettingValueAttribute("")]
     public string WebhookURL
     {

@@ -44,4 +44,22 @@ public class JsonCombatReplayMetaData
     /// </summary>
     /// <seealso cref="CombatReplayMap"/>
     public IReadOnlyList<CombatReplayMap>? Maps;
+    /// <summary>
+    /// Mechanic and skill drawings of the combat replay. \n
+    /// Only written when the parser is asked to (RawCombatReplayDecorations setting).
+    /// </summary>
+    /// <seealso cref="JsonCombatReplayDecoration"/>
+    public IReadOnlyList<JsonCombatReplayDecoration>? Decorations;
+    /// <summary>
+    /// The looks of <see cref="Decorations"/>, each listed once. \n
+    /// Only written with <see cref="Decorations"/>.
+    /// </summary>
+    /// <seealso cref="JsonCombatReplayDecorationMetadata"/>
+    public IReadOnlyList<JsonCombatReplayDecorationMetadata>? DecorationMetadata;
+    /// <summary>
+    /// Actors that <see cref="Decorations"/> are attached to but that are neither players nor targets of the log. \n
+    /// Only written with <see cref="Decorations"/>.
+    /// </summary>
+    /// <seealso cref="JsonCombatReplayActor"/>
+    public IReadOnlyList<JsonCombatReplayActor>? Actors;
 }
