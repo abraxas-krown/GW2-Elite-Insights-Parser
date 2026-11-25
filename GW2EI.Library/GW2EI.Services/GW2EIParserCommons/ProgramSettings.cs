@@ -57,6 +57,7 @@ public class ProgramSettings
     public bool RawTimelineArrays { get; set; } = true;
     public bool RawCombatReplayDecorations { get; set; } = false;
     public bool CompressRaw { get; set; } = false;
+    public string CompressRawFormat { get; set; } = "gzip";
     public bool IndentJSON { get; set; } = false;
     // Other
     public int MemoryLimit { get; set; } = 0;
@@ -108,6 +109,7 @@ public class ProgramSettings
         RawTimelineArrays = settings.RawTimelineArrays;
         RawCombatReplayDecorations = settings.RawCombatReplayDecorations;
         CompressRaw = settings.CompressRaw;
+        CompressRawFormat = settings.CompressRawFormat;
         IndentJSON = settings.IndentJSON;
         MemoryLimit = settings.MemoryLimit;
     }
