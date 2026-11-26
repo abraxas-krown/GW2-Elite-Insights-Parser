@@ -50,11 +50,11 @@ public class JsonCombatReplayDecorationMetadata
     /// </summary>
     public uint? OuterRadius;
     /// <summary>
-    /// Rectangles and progress bars: width
+    /// Rectangles, progress bars and moving platforms: width
     /// </summary>
     public uint? Width;
     /// <summary>
-    /// Rectangles and progress bars: height
+    /// Rectangles, progress bars and moving platforms: height
     /// </summary>
     public uint? Height;
     /// <summary>
@@ -79,15 +79,15 @@ public class JsonCombatReplayDecorationMetadata
     public uint? PixelHeight;
 
     /// <summary>
-    /// Icons: url of the image
+    /// Icons, background icons and moving platforms: url of the image
     /// </summary>
     public string? Image;
     /// <summary>
-    /// Icons: size, in pixels on the screen; 0 when <see cref="WorldSize"/> is used
+    /// Icons and background icons: size, in pixels on the screen; 0 when <see cref="WorldSize"/> is used
     /// </summary>
     public uint? PixelSize;
     /// <summary>
-    /// Icons: size, in inches; 0 when <see cref="PixelSize"/> is used
+    /// Icons and background icons: size, in inches; 0 when <see cref="PixelSize"/> is used
     /// </summary>
     public uint? WorldSize;
     /// <summary>
@@ -120,6 +120,15 @@ public class JsonCombatReplayActor
     /// Name of the actor
     /// </summary>
     public string? Name;
+    /// <summary>
+    /// When the actor is a minion: the unique ID of its master
+    /// </summary>
+    public int? MasterID;
+    /// <summary>
+    /// When the actor is a known minion of a player: true.
+    /// EI's combat replay shows such minions with their master, and only draws the decorations attached to them while it shows them.
+    /// </summary>
+    public bool? MasterIsPlayer;
     /// <summary>
     /// Combat replay data of the actor
     /// </summary>

@@ -22,8 +22,10 @@ internal static class JsonCombatReplayDecorationBuilder
         var referencedIDs = new HashSet<long>();
         foreach (CombatReplayRenderingDescription rendering in decorationRendering)
         {
-            // Actor facings, backgrounds and arena maps are not mechanics; facings and maps are written elsewhere
-            if (!rendering.IsMechanicOrSkill || rendering is not DecorationRenderingDescription description)
+            // Actor facings and arena maps are written elsewhere. 
+            if (rendering is not DecorationRenderingDescription description
+                || !(rendering.IsMechanicOrSkill 
+                    || rendering is MovingPlatformDecorationRenderingDescription or BackgroundIconDecorationRenderingDescription))
             {
                 continue;
             }
@@ -66,7 +68,7 @@ internal static class JsonCombatReplayDecorationBuilder
     }
 
     /// <summary>
-    /// The actors decorations are attached to that the JSON does not list as players or targets
+    /// The actors, decorations are attached to, that the JSON does not list as players or targets
     /// </summary>
     private static List<JsonCombatReplayActor> BuildActors(ParsedEvtcLog log, RawFormatSettings settings,
         IReadOnlyList<SingleActorCombatReplayDescription> actors, HashSet<long> referencedIDs)
@@ -88,12 +90,15 @@ internal static class JsonCombatReplayDecorationBuilder
                 continue;
             }
             SingleActor actor = log.FindActor(agent);
+            var npc = description as NPCCombatReplayDescription;
             result.Add(new JsonCombatReplayActor()
             {
                 UniqueID = description.ID,
                 ParentID = description.ParentID >= 0 ? description.ParentID : null,
                 Id = actor.ID,
                 Name = actor.Character,
+                MasterID = npc?.MasterID,
+                MasterIsPlayer = npc?.MasterIsPlayer,
                 CombatReplayData = JsonActorCombatReplayDataBuilder.BuildJsonActorCombatReplayDataBuilder(actor, log, settings),
             });
         }
@@ -111,6 +116,11 @@ internal static class JsonCombatReplayDecorationBuilder
         };
         switch (description)
         {
+            case MovingPlatformDecorationRenderingDescription platform:
+                decoration.Positions = platform.Positions
+                    .Select(p => (IReadOnlyList<double>)[p.x, p.y, p.z, p.Angle, p.Opacity, p.Time])
+                    .ToList();
+                return decoration;
             case AttachedDecorationRenderingDescription attached:
                 decoration.ConnectedTo = BuildConnector(attached.ConnectedTo);
                 decoration.RotationConnectedTo = BuildConnector(attached.RotationConnectedTo);
@@ -157,6 +167,10 @@ internal static class JsonCombatReplayDecorationBuilder
                 break;
             case IconDecorationRenderingDescription icon:
                 decoration.Text = icon.Text;
+                break;
+            case BackgroundIconDecorationRenderingDescription background:
+                decoration.Opacities = background.Opacities;
+                decoration.Heights = background.Heights;
                 break;
         }
         return decoration;
@@ -300,6 +314,16 @@ internal static class JsonCombatReplayDecorationBuilder
                 metadata.PixelSize = icon.PixelSize;
                 metadata.WorldSize = icon.WorldSize;
                 metadata.Opacity = icon.Opacity;
+                break;
+            case BackgroundIconDecorationMetadataDescription background:
+                metadata.Image = background.Image;
+                metadata.PixelSize = background.PixelSize;
+                metadata.WorldSize = background.WorldSize;
+                break;
+            case MovingPlatformDecorationMetadataDescription platform:
+                metadata.Image = platform.Image;
+                metadata.Width = (uint)platform.Width;
+                metadata.Height = (uint)platform.Height;
                 break;
         }
         return metadata;
